@@ -1,0 +1,6 @@
+/.idea/
+!/tests/App/cache/
+/tests/App/cache/*
+!tests/App/cache/.gitkeep
+/vendor/
+/composer.lock

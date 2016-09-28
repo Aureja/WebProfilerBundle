@@ -1,0 +1,38 @@
+{
+    "name": "aureja/web-profiler-bundle",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+      {
+          "name": "Tadas Gliaubicas",
+          "email": "tadas.gliaubicas@gmail.com"
+      }
+    ],
+    "require": {
+        "php": ">=5.5",
+
+        "symfony/framework-bundle" : ">=2.7|~3.0",
+        "symfony/doctrine-bridge": ">=2.7|~3.0",
+        "doctrine/orm": "~2.5",
+        "doctrine/doctrine-bundle": ">=1.3"
+    },
+    "require-dev": {
+        "symfony/symfony": ">=2.7|~3.0",
+        "phpunit/phpunit": "~4.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Aureja\\Bundle\\WebProfilerBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Aureja\\Bundle\\WebProfilerBundle\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1-dev"
+        }
+    }
+}
