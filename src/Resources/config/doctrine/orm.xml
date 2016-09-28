@@ -8,4 +8,21 @@
         <parameter key="doctrine.orm.configuration.class">Aureja\Bundle\WebProfilerBundle\Doctrine\ORM\Configuration</parameter>
     </parameters>
 
+    <services>
+
+        <service id="aureja_web_profiler.decorating.entity_manager"
+                 class="Aureja\Bundle\WebProfilerBundle\Doctrine\ORM\EntityManagerDecorator"
+                 decorates="doctrine.orm.default_entity_manager"
+                 public="false"
+        >
+            <argument type="service" id="aureja_web_profiler.decorating.entity_manager.inner" />
+        </service>
+
+        <service id="aureja_web_profiler.orm.logger" class="Aureja\Bundle\WebProfilerBundle\Doctrine\ORM\Logger">
+            <argument type="service" id="doctrine" />
+            <argument type="collection"></argument>
+            <argument type="service" id="debug.stopwatch" />
+        </service>
+    </services>
+
 </container>

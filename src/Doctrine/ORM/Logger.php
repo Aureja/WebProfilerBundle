@@ -41,11 +41,12 @@ class Logger
     protected $stopwatch;
 
     /**
-     * @param array $hydrators
+     *
      * @param ManagerRegistry $doctrine
+     * @param array $hydrators
      * @param Stopwatch|null $stopwatch
      */
-    public function __construct(array $hydrators, ManagerRegistry $doctrine, Stopwatch $stopwatch = null)
+    public function __construct(ManagerRegistry $doctrine, array $hydrators, Stopwatch $stopwatch = null)
     {
         // inject profiling logger and logging hydrators into a configuration of all registered entity managers
         foreach ($doctrine->getManagers() as $manager) {

@@ -2,7 +2,8 @@
 
 namespace Aureja\Bundle\WebProfilerBundle;
 
-class AurejaWebProfilerBundle
-{
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
+class AurejaWebProfilerBundle extends Bundle
+{
 }
