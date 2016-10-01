@@ -2,7 +2,6 @@
 
 namespace Aureja\Bundle\WebProfilerBundle\Doctrine\ORM;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
 
@@ -42,22 +41,11 @@ class Logger
 
     /**
      *
-     * @param ManagerRegistry $doctrine
      * @param array $hydrators
      * @param Stopwatch|null $stopwatch
      */
-    public function __construct(ManagerRegistry $doctrine, array $hydrators, Stopwatch $stopwatch = null)
+    public function __construct(array $hydrators, Stopwatch $stopwatch = null)
     {
-        // inject profiling logger and logging hydrators into a configuration of all registered entity managers
-        foreach ($doctrine->getManagers() as $manager) {
-            if ($manager instanceof EntityManagerInterface) {
-                $configuration = $manager->getConfiguration();
-                if ($configuration instanceof Configuration) {
-                    $configuration->setAttribute(ConfigurationAttributes::LOGGER, $this);
-                }
-            }
-        }
-
         $this->hydrators = $hydrators;
         $this->stopwatch = $stopwatch;
     }
@@ -99,6 +87,7 @@ class Logger
             'refresh',
             'flush'
         ];
+
         foreach ($names as $name) {
             if (!isset($this->stats[$name])) {
                 $this->stats[$name] = ['count' => 0, 'time' => 0];
@@ -126,11 +115,12 @@ class Logger
     public function startHydration($hydrationType)
     {
         $this->startHydration = microtime(true);
-
         $this->hydrations[++$this->currentHydration]['type'] = $hydrationType;
+        
         if ($this->stopwatch) {
             $this->stopwatch->start('doctrine.orm.hydrations', 'doctrine');
         }
+        
         $this->hydrationStack++;
     }
 
@@ -145,9 +135,11 @@ class Logger
         $this->hydrations[$this->currentHydration]['time']        = microtime(true) - $this->startHydration;
         $this->hydrations[$this->currentHydration]['resultCount'] = $resultCount;
         $this->hydrations[$this->currentHydration]['aliasMap']    = $aliasMap;
+        
         if ($this->stopwatch) {
             $this->stopwatch->stop('doctrine.orm.hydrations');
         }
+        
         $this->hydrationStack--;
     }
 
@@ -339,8 +331,8 @@ class Logger
     protected function startMetadata($name)
     {
         $startStopwatch = $this->stopwatch && empty($this->metadataStack);
-
         $this->metadataStack[$name][] = microtime(true);
+
         if ($startStopwatch) {
             $this->stopwatch->start('doctrine.orm.metadata', 'doctrine');
         }
@@ -357,6 +349,7 @@ class Logger
         } else {
             $this->stats[$name] = ['count' => 1, 'time' => 0];
         }
+
         if (isset($this->stats['metadata'])) {
             $this->stats['metadata']['count'] += 1;
         } else {

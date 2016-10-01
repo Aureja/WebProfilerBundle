@@ -18,8 +18,10 @@
             <argument type="service" id="aureja_web_profiler.decorating.entity_manager.inner" />
         </service>
 
-        <service id="aureja_web_profiler.orm.logger" class="Aureja\Bundle\WebProfilerBundle\Doctrine\ORM\Logger">
-            <argument type="service" id="doctrine" />
+        <service id="aureja_web_profiler.orm.logger"
+                 class="Aureja\Bundle\WebProfilerBundle\Doctrine\ORM\Logger"
+                 public="false"
+        >
             <argument type="collection"></argument>
             <argument type="service" id="debug.stopwatch" />
         </service>

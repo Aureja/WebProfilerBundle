@@ -54,14 +54,6 @@ class DuplicateQueriesDataCollector extends DataCollector
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'duplicate_queries';
-    }
-
-    /**
      * @return mixed
      */
     public function getQueriesCount()
@@ -102,11 +94,19 @@ class DuplicateQueriesDataCollector extends DataCollector
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return 'aureja_duplicate_queries';
+    }
+
+    /**
      * @param array $queries
      *
      * @return int
      */
-    protected function countGroupedQueries(array $queries)
+    private function countGroupedQueries(array $queries)
     {
         return array_sum(array_map('count', $queries));
     }

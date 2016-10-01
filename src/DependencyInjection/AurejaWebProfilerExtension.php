@@ -16,5 +16,6 @@ class AurejaWebProfilerExtension extends Extension
     {
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('doctrine/orm.xml');
+        $loader->load('data-collectors.xml');
     }
 }

@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <service id="aureja_web_profiler.data_collector.duplicate_queries"
+                 class="Aureja\Bundle\WebProfilerBundle\DataCollector\DuplicateQueriesDataCollector"
+                 public="false"
+        >
+            <tag name="data_collector" template="AurejaWebProfilerBundle:DataCollector:duplicate_queries.html.twig" id="aureja_duplicate_queries" />
+        </service>
+
+        <service id="aureja_web_profiler.data_collector.orm"
+                 class="Aureja\Bundle\WebProfilerBundle\DataCollector\OrmDataCollector"
+                 public="false"
+        >
+            <tag name="data_collector" template="AurejaWebProfilerBundle:DataCollector:orm.html.twig" id="aureja_orm" />
+
+            <argument type="service" id="aureja_web_profiler.orm.logger" />
+        </service>
+
+    </services>
+
+</container>

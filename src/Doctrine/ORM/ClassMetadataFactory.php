@@ -93,6 +93,7 @@ class ClassMetadataFactory extends BaseClassMetadataFactory
 
         $config = $this->em->getConfiguration();
 
+
         if ($config instanceof Configuration) {
             $this->logger = $config->getAttribute(ConfigurationAttributes::LOGGER, null);
         }
