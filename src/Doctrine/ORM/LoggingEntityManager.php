@@ -15,27 +15,25 @@ class LoggingEntityManager extends BaseEntityManager
      */
     private $logger;
 
+    /**
+     * {@inheritdoc}
+     */
     public static function create($conn, Configuration $config, EventManager $eventManager = null)
     {
         if ( ! $config->getMetadataDriverImpl()) {
             throw ORMException::missingMappingDriverImpl();
         }
 
-        switch (true) {
-            case (is_array($conn)):
-                $conn = \Doctrine\DBAL\DriverManager::getConnection(
-                    $conn, $config, ($eventManager ?: new EventManager())
-                );
-                break;
-
-            case ($conn instanceof Connection):
-                if ($eventManager !== null && $conn->getEventManager() !== $eventManager) {
-                    throw ORMException::mismatchedEventManager();
-                }
-                break;
-
-            default:
-                throw new \InvalidArgumentException("Invalid argument: " . $conn);
+        if (is_array($conn)) {
+            $conn = \Doctrine\DBAL\DriverManager::getConnection(
+                $conn, $config, ($eventManager ?: new EventManager())
+            );
+        } elseif ($conn instanceof Connection) {
+            if ($eventManager !== null && $conn->getEventManager() !== $eventManager) {
+                throw ORMException::mismatchedEventManager();
+            }
+        } else {
+            throw new \InvalidArgumentException("Invalid argument: " . $conn);
         }
 
         return new self($conn, $config, $conn->getEventManager());
@@ -50,10 +48,10 @@ class LoggingEntityManager extends BaseEntityManager
             $hydrators = $logger->getHydrators();
 
             if (isset($hydrators[$hydrationMode])) {
-                $className = $hydrators[$hydrationMode]['loggingClass'];
+                $class = $hydrators[$hydrationMode]['logging_class'];
 
-                if (class_exists($className)) {
-                    return new $className($this);
+                if (class_exists($class)) {
+                    return new $class($this);
                 }
             }
         }
@@ -167,10 +165,6 @@ class LoggingEntityManager extends BaseEntityManager
     {
         if ($this->logger) {
             return $this->logger;
-        }
-
-        if (false === $this->logger) {
-            return null;
         }
 
         $config = $this->getConfiguration();

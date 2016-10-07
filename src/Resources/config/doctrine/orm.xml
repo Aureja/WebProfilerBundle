@@ -7,12 +7,6 @@
     <parameters>
         <parameter key="doctrine.orm.configuration.class">Aureja\Bundle\WebProfilerBundle\Doctrine\ORM\AurejaConfiguration</parameter>
         <parameter key="doctrine.orm.entity_manager.class">Aureja\Bundle\WebProfilerBundle\Doctrine\ORM\LoggingEntityManager</parameter>
-        <parameter type="collection" key="aureja_web_profiler.orm.hydrators">
-            <parameter type="collection" key="Doctrine\ORM\Query::HYDRATE_OBJECT">
-                <parameter key="name">ObjectHydrator</parameter>
-                <parameter key="class">Doctrine\ORM\Internal\Hydration\ObjectHydrator</parameter>
-            </parameter>
-        </parameter>
     </parameters>
 
     <services>

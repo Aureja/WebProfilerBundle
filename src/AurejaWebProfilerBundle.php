@@ -13,6 +13,7 @@ namespace Aureja\Bundle\WebProfilerBundle;
 
 use Aureja\Bundle\WebProfilerBundle\DependencyInjection\Compiler\DataCollectorCompilerPass;
 use Aureja\Bundle\WebProfilerBundle\DependencyInjection\Compiler\OrmCompilerPass;
+use Aureja\Bundle\WebProfilerBundle\Doctrine\ORM\HydratorMap;
 use Symfony\Component\ClassLoader\ClassLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -29,7 +30,7 @@ class AurejaWebProfilerBundle extends Bundle
     {
         $loader = new ClassLoader();
         $loader->addPrefix(
-            'AurejaLoggingHydrator\\',
+            HydratorMap::LOGGING_HYDRATOR_NAMESPACE . '\\',
             $kernel->getCacheDir() . DIRECTORY_SEPARATOR . 'aureja_web_profiler'
         );
         $loader->register();

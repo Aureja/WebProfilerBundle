@@ -153,10 +153,6 @@ class LoggingEntityManagerDecorator extends BaseEntityManagerDecorator
             return $this->logger;
         }
 
-        if (false === $this->logger) {
-            return null;
-        }
-
         $config = $this->getConfiguration();
 
         if ($config instanceof AurejaConfiguration) {

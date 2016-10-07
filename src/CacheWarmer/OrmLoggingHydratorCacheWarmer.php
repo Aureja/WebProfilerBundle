@@ -11,6 +11,7 @@
 
 namespace Aureja\Bundle\WebProfilerBundle\CacheWarmer;
 
+use Aureja\Bundle\WebProfilerBundle\Doctrine\ORM\HydratorMap;
 use Aureja\Bundle\WebProfilerBundle\Doctrine\ORM\HydratorMetadata;
 use Aureja\Bundle\WebProfilerBundle\Doctrine\ORM\LoggingHydratorGenerator;
 use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmer;
@@ -22,6 +23,11 @@ class OrmLoggingHydratorCacheWarmer extends CacheWarmer
      */
     private $hydrators;
 
+    /**
+     * OrmLoggingHydratorCacheWarmer constructor.
+     *
+     * @param array $hydrators
+     */
     public function __construct(array $hydrators)
     {
         $this->hydrators = $hydrators;
@@ -32,7 +38,7 @@ class OrmLoggingHydratorCacheWarmer extends CacheWarmer
      */
     public function warmUp($cacheDir)
     {
-        $cacheDir = implode(DIRECTORY_SEPARATOR, [$cacheDir, 'aureja_web_profiler', 'AurejaLoggingHydrator']);
+        $cacheDir = implode(DIRECTORY_SEPARATOR, [$cacheDir, 'aureja_web_profiler', HydratorMap::LOGGING_HYDRATOR_NAMESPACE]);
 
         if (!$this->ensureDirectoryExists($cacheDir)) {
             return;

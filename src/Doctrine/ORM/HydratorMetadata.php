@@ -89,7 +89,7 @@ class HydratorMetadata
     public static function create(array $hydrator)
     {
         $naame = $hydrator['name'];
-        $fullClassName  = $hydrator['loggingClass'];
+        $fullClassName  = $hydrator['logging_class'];
         $pos = strrpos($fullClassName, '\\');
         $namespace = substr($fullClassName, 0, $pos);
         $className = substr($fullClassName, $pos + 1);
