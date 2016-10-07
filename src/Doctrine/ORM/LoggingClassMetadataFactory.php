@@ -1,11 +1,20 @@
 <?php
 
+/*
+ * This file is part of the Aureja package.
+ *
+ * (c) Tadas Gliaubicas <tadas.gliaubicas@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Aureja\Bundle\WebProfilerBundle\Doctrine\ORM;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadataFactory as BaseClassMetadataFactory;
 
-class ClassMetadataFactory extends BaseClassMetadataFactory
+class LoggingClassMetadataFactory extends BaseClassMetadataFactory
 {
     /**
      * @var EntityManagerInterface|null
@@ -81,7 +90,7 @@ class ClassMetadataFactory extends BaseClassMetadataFactory
      *
      * @return Logger|null
      */
-    protected function getProfilingLogger()
+    private function getProfilingLogger()
     {
         if ($this->logger) {
             return $this->logger;
@@ -93,9 +102,8 @@ class ClassMetadataFactory extends BaseClassMetadataFactory
 
         $config = $this->em->getConfiguration();
 
-
-        if ($config instanceof Configuration) {
-            $this->logger = $config->getAttribute(ConfigurationAttributes::LOGGER, null);
+        if ($config instanceof AurejaConfiguration) {
+            $this->logger = $config->getAttribute(AurejaConfiguration::LOGGER, null);
         }
 
         return $this->logger;

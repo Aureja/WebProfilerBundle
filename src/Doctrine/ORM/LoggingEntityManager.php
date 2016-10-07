@@ -2,14 +2,42 @@
 
 namespace Aureja\Bundle\WebProfilerBundle\Doctrine\ORM;
 
-use Doctrine\ORM\Decorator\EntityManagerDecorator as BaseEntityManagerDecorator;
+use Doctrine\Common\EventManager;
+use Doctrine\DBAL\Connection;
+use Doctrine\ORM\Configuration;
+use Doctrine\ORM\ORMException;
+use Doctrine\ORM\EntityManager as BaseEntityManager;
 
-class EntityManagerDecorator extends BaseEntityManagerDecorator
+class LoggingEntityManager extends BaseEntityManager
 {
     /**
      * @var Logger 
      */
     private $logger;
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function create($conn, Configuration $config, EventManager $eventManager = null)
+    {
+        if ( ! $config->getMetadataDriverImpl()) {
+            throw ORMException::missingMappingDriverImpl();
+        }
+
+        if (is_array($conn)) {
+            $conn = \Doctrine\DBAL\DriverManager::getConnection(
+                $conn, $config, ($eventManager ?: new EventManager())
+            );
+        } elseif ($conn instanceof Connection) {
+            if ($eventManager !== null && $conn->getEventManager() !== $eventManager) {
+                throw ORMException::mismatchedEventManager();
+            }
+        } else {
+            throw new \InvalidArgumentException("Invalid argument: " . $conn);
+        }
+
+        return new self($conn, $config, $conn->getEventManager());
+    }
 
     /**
      * {@inheritdoc}
@@ -20,17 +48,16 @@ class EntityManagerDecorator extends BaseEntityManagerDecorator
             $hydrators = $logger->getHydrators();
 
             if (isset($hydrators[$hydrationMode])) {
-                $className = $hydrators[$hydrationMode]['loggingClass'];
+                $class = $hydrators[$hydrationMode]['logging_class'];
 
-                if (class_exists($className)) {
-                    return new $className($this);
+                if (class_exists($class)) {
+                    return new $class($this);
                 }
             }
         }
 
-        return $this->wrapped->newHydrator($hydrationMode);
+        return parent::newHydrator($hydrationMode);
     }
-
 
     /**
      * {@inheritdoc}
@@ -39,13 +66,13 @@ class EntityManagerDecorator extends BaseEntityManagerDecorator
     {
         if ($logger = $this->getProfilingLogger()) {
             $logger->startPersist();
-            $this->wrapped->persist($entity);
+            parent::persist($entity);
             $logger->stopPersist();
 
             return;
         }
 
-        $this->wrapped->persist($entity);
+        parent::persist($entity);
     }
 
     /**
@@ -55,13 +82,13 @@ class EntityManagerDecorator extends BaseEntityManagerDecorator
     {
         if ($logger = $this->getProfilingLogger()) {
             $logger->startDetach();
-            $this->wrapped->detach($entity);
+            parent::detach($entity);
             $logger->stopDetach();
 
             return;
         }
 
-        $this->wrapped->detach($entity);
+        parent::detach($entity);
     }
 
 
@@ -72,13 +99,13 @@ class EntityManagerDecorator extends BaseEntityManagerDecorator
     {
         if ($logger = $this->getProfilingLogger()) {
             $logger->startMerge();
-            $result = $this->wrapped->merge($entity);;
+            $result = parent::merge($entity);;
             $logger->stopMerge();
 
             return $result;
         }
 
-        return $this->wrapped->merge($entity);
+        return parent::merge($entity);
     }
 
     /**
@@ -88,13 +115,13 @@ class EntityManagerDecorator extends BaseEntityManagerDecorator
     {
         if ($logger = $this->getProfilingLogger()) {
             $logger->startRefresh();
-            $this->wrapped->refresh($entity);
+            parent::refresh($entity);
             $logger->stopRefresh();
 
             return;
         }
 
-        $this->wrapped->refresh($entity);
+        parent::refresh($entity);
     }
 
     /**
@@ -104,13 +131,13 @@ class EntityManagerDecorator extends BaseEntityManagerDecorator
     {
         if ($logger = $this->getProfilingLogger()) {
             $logger->startRemove();
-            $this->wrapped->remove($entity);
+            parent::remove($entity);
             $logger->stopRemove();
 
             return;
         }
 
-        $this->wrapped->remove($entity);;
+        parent::remove($entity);;
     }
 
     /**
@@ -120,13 +147,13 @@ class EntityManagerDecorator extends BaseEntityManagerDecorator
     {
         if ($logger = $this->getProfilingLogger()) {
             $logger->startFlush();
-            $this->wrapped->flush();
+            parent::flush();
             $logger->stopFlush();
 
             return;
         }
 
-        $this->wrapped->flush();
+        parent::flush();
     }
 
     /**
@@ -140,14 +167,10 @@ class EntityManagerDecorator extends BaseEntityManagerDecorator
             return $this->logger;
         }
 
-        if (false === $this->logger) {
-            return null;
-        }
-
         $config = $this->getConfiguration();
 
-        if ($config instanceof Configuration) {
-            $this->logger = $config->getAttribute(ConfigurationAttributes::LOGGER, null);
+        if ($config instanceof AurejaConfiguration) {
+            $this->logger = $config->getAttribute(AurejaConfiguration::LOGGER, null);
         }
 
         return $this->logger;

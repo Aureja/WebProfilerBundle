@@ -5,25 +5,36 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="doctrine.orm.configuration.class">Aureja\Bundle\WebProfilerBundle\Doctrine\ORM\Configuration</parameter>
+        <parameter key="doctrine.orm.configuration.class">Aureja\Bundle\WebProfilerBundle\Doctrine\ORM\AurejaConfiguration</parameter>
+        <parameter key="doctrine.orm.entity_manager.class">Aureja\Bundle\WebProfilerBundle\Doctrine\ORM\LoggingEntityManager</parameter>
     </parameters>
 
     <services>
 
-        <service id="aureja_web_profiler.decorating.entity_manager"
-                 class="Aureja\Bundle\WebProfilerBundle\Doctrine\ORM\EntityManagerDecorator"
+        <service id="aureja_web_profiler.cache_warmer.orm_logging_hydrator"
+                 class="Aureja\Bundle\WebProfilerBundle\CacheWarmer\OrmLoggingHydratorCacheWarmer"
+        >
+            <tag name="kernel.cache_warmer" priority="30" />
+
+            <argument>%aureja_web_profiler.orm.hydrators%</argument>
+        </service>
+
+        <!--
+        <service id="aureja_web_profiler.orm.decorating.entity_manager"
+                 class="Aureja\Bundle\WebProfilerBundle\Doctrine\ORM\LoggingEntityManagerDecorator"
                  decorates="doctrine.orm.default_entity_manager"
                  public="false"
         >
-            <argument type="service" id="aureja_web_profiler.decorating.entity_manager.inner" />
+            <argument type="service" id="aureja_web_profiler.orm.decorating.entity_manager.inner" />
         </service>
+        -->
 
         <service id="aureja_web_profiler.orm.logger"
                  class="Aureja\Bundle\WebProfilerBundle\Doctrine\ORM\Logger"
                  public="false"
         >
-            <argument type="collection"></argument>
-            <argument type="service" id="debug.stopwatch" />
+            <argument>%aureja_web_profiler.orm.hydrators%</argument>
+            <argument type="service" id="debug.stopwatch" on-invalid="null" />
         </service>
     </services>
 
