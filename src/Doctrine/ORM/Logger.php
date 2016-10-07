@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Aureja package.
+ *
+ * (c) Tadas Gliaubicas <tadas.gliaubicas@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Aureja\Bundle\WebProfilerBundle\Doctrine\ORM;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -7,7 +16,9 @@ use Symfony\Component\Stopwatch\Stopwatch;
 
 class Logger
 {
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $hydrations = [];
 
     /**
@@ -15,31 +26,48 @@ class Logger
      */
     private $hydrators;
 
-    /** @var float */
+    /**
+     * @var float
+     */
     protected $startHydration;
 
-    /** @var integer */
+    /**
+     * @var int
+     */
     protected $currentHydration = 0;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $stats = [];
 
-    /** @var float */
+    /**
+     * @var float
+     */
     protected $statsTime = 0;
 
-    /** @var integer */
+    /**
+     * @var int
+     */
     protected $hydrationStack = 0;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $operationStack = [];
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $metadataStack = [];
 
-    /** @var Stopwatch|null */
+    /**
+     * @var Stopwatch|null
+     */
     protected $stopwatch;
 
     /**
+     * Constructor.
      *
      * @param array $hydrators
      * @param Stopwatch|null $stopwatch

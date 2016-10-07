@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Aureja package.
+ *
+ * (c) Tadas Gliaubicas <tadas.gliaubicas@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Aureja\Bundle\WebProfilerBundle\DependencyInjection\Compiler;
 
 use Aureja\Bundle\WebProfilerBundle\Doctrine\ORM\AurejaConfiguration;

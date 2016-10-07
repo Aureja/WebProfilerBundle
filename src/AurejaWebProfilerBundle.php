@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Aureja package.
+ *
+ * (c) Tadas Gliaubicas <tadas.gliaubicas@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Aureja\Bundle\WebProfilerBundle;
 
 use Aureja\Bundle\WebProfilerBundle\DependencyInjection\Compiler\DataCollectorCompilerPass;
@@ -11,9 +20,13 @@ use Symfony\Component\HttpKernel\KernelInterface;
 
 class AurejaWebProfilerBundle extends Bundle
 {
+    /**
+     * AurejaWebProfilerBundle constructor.
+     * 
+     * @param KernelInterface $kernel
+     */
     public function __construct(KernelInterface $kernel)
     {
-        // register logging hydrators class loader
         $loader = new ClassLoader();
         $loader->addPrefix(
             'AurejaLoggingHydrator\\',
