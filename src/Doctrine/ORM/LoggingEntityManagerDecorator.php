@@ -3,8 +3,12 @@
 namespace Aureja\Bundle\WebProfilerBundle\Doctrine\ORM;
 
 use Doctrine\ORM\Decorator\EntityManagerDecorator as BaseEntityManagerDecorator;
+use Doctrine\ORM\QueryBuilder;
 
-class EntityManagerDecorator extends BaseEntityManagerDecorator
+/**
+ * TODO: decorator don't work on repository and create;
+ */
+class LoggingEntityManagerDecorator extends BaseEntityManagerDecorator
 {
     /**
      * @var Logger 
@@ -146,8 +150,8 @@ class EntityManagerDecorator extends BaseEntityManagerDecorator
 
         $config = $this->getConfiguration();
 
-        if ($config instanceof Configuration) {
-            $this->logger = $config->getAttribute(ConfigurationAttributes::LOGGER, null);
+        if ($config instanceof AurejaConfiguration) {
+            $this->logger = $config->getAttribute(AurejaConfiguration::LOGGER, null);
         }
 
         return $this->logger;

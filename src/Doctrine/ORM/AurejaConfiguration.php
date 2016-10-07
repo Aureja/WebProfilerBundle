@@ -4,8 +4,10 @@ namespace Aureja\Bundle\WebProfilerBundle\Doctrine\ORM;
 
 use Doctrine\ORM\Configuration as BaseConfiguration;
 
-class Configuration extends BaseConfiguration
+class AurejaConfiguration extends BaseConfiguration
 {
+    const LOGGER = 'aureja_logger';
+
     /**
      * Gets a value of a configuration attribute
      *
