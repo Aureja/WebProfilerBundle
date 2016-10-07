@@ -21,6 +21,8 @@ use Symfony\Component\HttpKernel\KernelInterface;
 
 class AurejaWebProfilerBundle extends Bundle
 {
+    const CACHE_DIR = 'aureja_web_profiler';
+
     /**
      * AurejaWebProfilerBundle constructor.
      * 
@@ -31,7 +33,7 @@ class AurejaWebProfilerBundle extends Bundle
         $loader = new ClassLoader();
         $loader->addPrefix(
             HydratorMap::LOGGING_HYDRATOR_NAMESPACE . '\\',
-            $kernel->getCacheDir() . DIRECTORY_SEPARATOR . 'aureja_web_profiler'
+            $kernel->getCacheDir() . DIRECTORY_SEPARATOR . self::CACHE_DIR
         );
         $loader->register();
     }
