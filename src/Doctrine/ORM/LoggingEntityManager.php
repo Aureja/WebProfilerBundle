@@ -61,7 +61,6 @@ class LoggingEntityManager extends BaseEntityManager
         return parent::newHydrator($hydrationMode);
     }
 
-
     /**
      * {@inheritdoc}
      */
