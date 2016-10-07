@@ -50,7 +50,7 @@ final class HydratorMap
      * @param string $name
      * @param string $class
      */
-    public function add($key, $name, $class)
+    public static function add($key, $name, $class)
     {
         self::$map[$key] = ['name' => $name, 'class' => $class];
     }

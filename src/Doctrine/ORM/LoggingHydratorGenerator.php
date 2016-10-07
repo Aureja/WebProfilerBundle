@@ -27,7 +27,7 @@ namespace {$metadata->getNamespace()};
 
 use Aureja\Bundle\WebProfilerBundle\Doctrine\ORM\AurejaConfiguration;
 
-class {$metadata->getClassName()} extends \\{$metadata->getParentClassName()}
+class {$metadata->getClassName()} extends \\{$metadata->getParentClass()}
 {
     public function hydrateAll(\$stmt, \$resultSetMapping, array \$hints = [])
     {

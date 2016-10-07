@@ -31,7 +31,7 @@ class HydratorMetadata
     /**
      * @var string
      */
-    private $parentClassName;
+    private $parentClass;
 
     /**
      * HydratorMetadata constructor.
@@ -39,14 +39,14 @@ class HydratorMetadata
      * @param string $name
      * @param string $namespace
      * @param string $className
-     * @param string $parentClassName
+     * @param string $parentClass
      */
-    public function __construct($name, $namespace, $className, $parentClassName)
+    public function __construct($name, $namespace, $className, $parentClass)
     {
         $this->name = $name;
         $this->namespace = $namespace;
         $this->className = $className;
-        $this->parentClassName = $parentClassName;
+        $this->parentClass = $parentClass;
     }
 
     /**
@@ -76,9 +76,9 @@ class HydratorMetadata
     /**
      * @return string
      */
-    public function getParentClassName()
+    public function getParentClass()
     {
-        return $this->parentClassName;
+        return $this->parentClass;
     }
 
     /**
@@ -93,8 +93,8 @@ class HydratorMetadata
         $pos = strrpos($fullClassName, '\\');
         $namespace = substr($fullClassName, 0, $pos);
         $className = substr($fullClassName, $pos + 1);
-        $parentClassName = $hydrator['class'];
+        $parentClass = $hydrator['class'];
         
-        return new self($naame, $namespace, $className, $parentClassName);
+        return new self($naame, $namespace, $className, $parentClass);
     }
 }

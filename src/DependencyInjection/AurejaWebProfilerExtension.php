@@ -24,9 +24,20 @@ class AurejaWebProfilerExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
+        $configuration = new Configuration();
+        $config = $this->processConfiguration($configuration, $configs);
+
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('doctrine/orm.xml');
         $loader->load('data-collectors.xml');
+
+        foreach ($config['hydrators'] as $key => $value) {
+            if (defined($key)) {
+                $key = constant($key);
+            }
+
+            HydratorMap::add($key, $value['name'], $value['class']);
+        }
 
         $container->setParameter($this->getAlias() . '.orm.hydrators', HydratorMap::getHydrators());
     }
