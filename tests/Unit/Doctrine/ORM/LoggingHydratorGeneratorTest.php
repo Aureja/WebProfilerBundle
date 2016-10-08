@@ -14,7 +14,6 @@ class LoggingHydratorGeneratorTest extends TestCase
     {
         $hydrators = HydratorMap::getHydrators();
         $metadata = HydratorMetadata::create($hydrators[Query::HYDRATE_ARRAY]);
-
         $expected = <<<PHP
 <?php
 
@@ -38,7 +37,6 @@ class LoggingArrayHydrator extends \Doctrine\ORM\Internal\Hydration\ArrayHydrato
     }
 }
 PHP;
-
 
         $this->assertEquals($expected, LoggingHydratorGenerator::generate($metadata));
     }
