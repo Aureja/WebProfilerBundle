@@ -49,13 +49,13 @@ class DuplicateQueryAnalyzer
         foreach ($this->queries as $query) {
             $queryKey = $this->generateQueryKey($query['sql'], $query['parameters']);
 
-            if (!isset($identicalQueriesCounter[$queryKey])) {
+            if (false === isset($identicalQueriesCounter[$queryKey])) {
                 $identicalQueriesCounter[$queryKey] = 0;
             }
             
             $identicalQueriesCounter[$queryKey]++;
 
-            if ($identicalQueriesCounter[$queryKey] > 1) {
+            if (1 < $identicalQueriesCounter[$queryKey]) {
                 $identicalQueries[$queryKey] = [
                     'sql' => $query['sql'],
                     'parameters' => $query['parameters'],
@@ -72,27 +72,26 @@ class DuplicateQueryAnalyzer
      */
     public function getSimilarQueries()
     {
-        $sameParamsCounter = [];
+        $similarQueriesCounter = [];
         $similarQueries = [];
         
         foreach ($this->queries as $query) {
-            if (count($query['parameters']) === 0) {
+            if (0 === count($query['parameters'])) {
                 continue;
             }
             
             $queryKey = $this->generateSqlKey($query['sql']);
-            $queryKeyWithParameters = $this->generateParametersKey($query['parameters']);
 
-            if (!isset($sameParamsCounter[$queryKey][$queryKeyWithParameters])) {
-                $sameParamsCounter[$queryKey][$queryKeyWithParameters] = 0;
+            if (false === isset($similarQueriesCounter[$queryKey])) {
+                $similarQueriesCounter[$queryKey] = 0;
             }
             
-            $sameParamsCounter[$queryKey][$queryKeyWithParameters]++;
+            $similarQueriesCounter[$queryKey]++;
 
-            if (count($sameParamsCounter[$queryKey]) > 1) {
+            if (1 < $similarQueriesCounter[$queryKey]) {
                 $similarQueries[$queryKey] = [
                     'sql' => $query['sql'],
-                    'count' => array_sum($sameParamsCounter[$queryKey]),
+                    'count' => $similarQueriesCounter[$queryKey],
                 ];
             }
         }
@@ -108,7 +107,7 @@ class DuplicateQueryAnalyzer
      */
     private function generateQueryKey($sql, array $parameters)
     {
-        return $this->generateSqlKey($sql).':'.$this->generateParametersKey($parameters);
+        return $this->generateSqlKey($sql) . ':' . $this->generateParametersKey($parameters);
     }
 
     /**
