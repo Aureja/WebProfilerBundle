@@ -156,6 +156,9 @@ class DuplicateQueryAnalyzerTest extends TestCase
                     [
                         'sql' => 'SELECT * FROM aureja WHERE id = ?',
                         'count' => 2,
+                    ],[
+                        'sql' => 'SELECT * FROM aureja',
+                        'count' => 3,
                     ],
                     [
                         'sql' => 'SELECT * FROM aureja WHERE number = ?',

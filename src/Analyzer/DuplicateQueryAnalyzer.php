@@ -11,7 +11,7 @@
 
 namespace Aureja\Bundle\WebProfilerBundle\Analyzer;
 
-class DuplicateQueryAnalyzer
+final class DuplicateQueryAnalyzer
 {
     /**
      * @var array
@@ -76,10 +76,6 @@ class DuplicateQueryAnalyzer
         $similarQueries = [];
         
         foreach ($this->queries as $query) {
-            if (0 === count($query['parameters'])) {
-                continue;
-            }
-            
             $queryKey = $this->generateSqlKey($query['sql']);
 
             if (false === isset($similarQueriesCounter[$queryKey])) {

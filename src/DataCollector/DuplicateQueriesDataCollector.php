@@ -22,20 +22,18 @@ class DuplicateQueriesDataCollector extends DataCollector
     /**
      * @var array
      */
-    protected $loggers = [];
-
-    public function __construct()
-    {
-        $this->data = [
-            'queries_count' => [],
-            'identical' => [],
-            'similar' => [],
-        ];
-    }
+    private $data = [
+        'queries_count' => [],
+        'identical' => [],
+        'similar' => [],
+    ];
 
     /**
-     * Adds the stack logger for a doctrine connection.
-     *
+     * @var array
+     */
+    private $loggers = [];
+
+    /**
      * @param string $name
      * @param DebugStack $logger
      */
