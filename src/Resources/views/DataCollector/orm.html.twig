@@ -19,60 +19,60 @@
             <span>{{ collector.hydratedEntities }}</span>
         </div>
         <div class="sf-toolbar-info-piece">
-            <b><abbr title="The number of calls. ClassMetadataFactory::getAllMetadata: {{ collector.stats.getAllMetadata.count }}, ClassMetadataFactory::getMetadataFor: {{ collector.stats.getMetadataFor.count }}, ClassMetadataFactory::isTransient: {{ collector.stats.isTransient.count }}">Metadata</abbr></b>
-            <span>{{ collector.stats.metadata.count }}</span>
+            <b><abbr title="The number of calls. ClassMetadataFactory::getAllMetadata: {{ collector.statistics.getAllMetadata.count }}, ClassMetadataFactory::getMetadataFor: {{ collector.statistics.getMetadataFor.count }}, ClassMetadataFactory::isTransient: {{ collector.statistics.isTransient.count }}">Metadata</abbr></b>
+            <span>{{ collector.statistics.metadata.count }}</span>
         </div>
         <div class="sf-toolbar-info-piece">
-            <b><abbr title="ClassMetadataFactory::getAllMetadata: {{ '%0.2f'|format(collector.stats.getAllMetadata.time * 1000) }} ms, ClassMetadataFactory::getMetadataFor: {{ '%0.2f'|format(collector.stats.getMetadataFor.time * 1000) }} ms, ClassMetadataFactory::isTransient: {{ '%0.2f'|format(collector.stats.isTransient.time * 1000) }} ms">Metadata time</abbr></b>
-            <span>{{ '%0.2f'|format(collector.stats.metadata.time * 1000) }} ms</span>
+            <b><abbr title="ClassMetadataFactory::getAllMetadata: {{ '%0.2f'|format(collector.statistics.getAllMetadata.time * 1000) }} ms, ClassMetadataFactory::getMetadataFor: {{ '%0.2f'|format(collector.statistics.getMetadataFor.time * 1000) }} ms, ClassMetadataFactory::isTransient: {{ '%0.2f'|format(collector.statistics.isTransient.time * 1000) }} ms">Metadata time</abbr></b>
+            <span>{{ '%0.2f'|format(collector.statistics.metadata.time * 1000) }} ms</span>
         </div>
         <div class="sf-toolbar-info-piece">
             <b>Persists</b>
-            <span>{{ collector.stats.persist.count }}</span>
+            <span>{{ collector.statistics.persist.count }}</span>
         </div>
         <div class="sf-toolbar-info-piece">
             <b>Persist time</b>
-            <span>{{ '%0.2f'|format(collector.stats.persist.time * 1000) }} ms</span>
+            <span>{{ '%0.2f'|format(collector.statistics.persist.time * 1000) }} ms</span>
         </div>
         <div class="sf-toolbar-info-piece">
             <b>Detaches</b>
-            <span>{{ collector.stats.detach.count }}</span>
+            <span>{{ collector.statistics.detach.count }}</span>
         </div>
         <div class="sf-toolbar-info-piece">
             <b>Detach time</b>
-            <span>{{ '%0.2f'|format(collector.stats.detach.time * 1000) }} ms</span>
+            <span>{{ '%0.2f'|format(collector.statistics.detach.time * 1000) }} ms</span>
         </div>
         <div class="sf-toolbar-info-piece">
             <b>Merges</b>
-            <span>{{ collector.stats.merge.count }}</span>
+            <span>{{ collector.statistics.merge.count }}</span>
         </div>
         <div class="sf-toolbar-info-piece">
             <b>Merge time</b>
-            <span>{{ '%0.2f'|format(collector.stats.merge.time * 1000) }} ms</span>
+            <span>{{ '%0.2f'|format(collector.statistics.merge.time * 1000) }} ms</span>
         </div>
         <div class="sf-toolbar-info-piece">
             <b>Removes</b>
-            <span>{{ collector.stats.remove.count }}</span>
+            <span>{{ collector.statistics.remove.count }}</span>
         </div>
         <div class="sf-toolbar-info-piece">
             <b>Remove time</b>
-            <span>{{ '%0.2f'|format(collector.stats.remove.time * 1000) }} ms</span>
+            <span>{{ '%0.2f'|format(collector.statistics.remove.time * 1000) }} ms</span>
         </div>
         <div class="sf-toolbar-info-piece">
             <b>Refreshes</b>
-            <span>{{ collector.stats.refresh.count }}</span>
+            <span>{{ collector.statistics.refresh.count }}</span>
         </div>
         <div class="sf-toolbar-info-piece">
             <b>Refresh time</b>
-            <span>{{ '%0.2f'|format(collector.stats.refresh.time * 1000) }} ms</span>
+            <span>{{ '%0.2f'|format(collector.statistics.refresh.time * 1000) }} ms</span>
         </div>
         <div class="sf-toolbar-info-piece">
             <b>Flushes</b>
-            <span>{{ collector.stats.flush.count }}</span>
+            <span>{{ collector.statistics.flush.count }}</span>
         </div>
         <div class="sf-toolbar-info-piece">
             <b>Flush time</b>
-            <span>{{ '%0.2f'|format(collector.stats.flush.time * 1000) }} ms</span>
+            <span>{{ '%0.2f'|format(collector.statistics.flush.time * 1000) }} ms</span>
         </div>
         <div class="sf-toolbar-info-piece">
             <b><abbr title="The total time of all monitored ORM hydrations, operations and metadata retrieving. The time of hidrations and operations includes the time of metadata retrieving used there.">Total time</abbr></b>
@@ -93,12 +93,12 @@
 {% endblock %}
 
 {% block panel %}
-    {{ block('stats') }}
+    {{ block('statistics') }}
     {{ block('hydrations') }}
 {% endblock %}
 
-{% block stats %}
-    <h2>ORM Stats</h2>
+{% block statistics %}
+    <h2>ORM statistics</h2>
 
     <table>
         <tbody>
@@ -116,83 +116,83 @@
         </tr>
         <tr>
             <th>Metadata calls</th>
-            <td><pre>{{ collector.stats.metadata.count }}</pre></td>
+            <td><pre>{{ collector.statistics.metadata.count }}</pre></td>
         </tr>
         <tr>
             <th>Metadata time</th>
-            <td><pre>{{ '%0.2f'|format(collector.stats.metadata.time * 1000) }} ms</pre></td>
+            <td><pre>{{ '%0.2f'|format(collector.statistics.metadata.time * 1000) }} ms</pre></td>
         </tr>
         <tr>
             <th>GetAllMetadata calls</th>
-            <td><pre>{{ collector.stats.getAllMetadata.count }}</pre></td>
+            <td><pre>{{ collector.statistics.getAllMetadata.count }}</pre></td>
         </tr>
         <tr>
             <th>GetAllMetadata time</th>
-            <td><pre>{{ '%0.2f'|format(collector.stats.getAllMetadata.time * 1000) }} ms</pre></td>
+            <td><pre>{{ '%0.2f'|format(collector.statistics.getAllMetadata.time * 1000) }} ms</pre></td>
         </tr>
         <tr>
             <th>GetMetadataFor calls</th>
-            <td><pre>{{ collector.stats.getMetadataFor.count }}</pre></td>
+            <td><pre>{{ collector.statistics.getMetadataFor.count }}</pre></td>
         </tr>
         <tr>
             <th>GetMetadataFor time</th>
-            <td><pre>{{ '%0.2f'|format(collector.stats.getMetadataFor.time * 1000) }} ms</pre></td>
+            <td><pre>{{ '%0.2f'|format(collector.statistics.getMetadataFor.time * 1000) }} ms</pre></td>
         </tr>
         <tr>
             <th>IsTransient calls</th>
-            <td><pre>{{ collector.stats.isTransient.count }}</pre></td>
+            <td><pre>{{ collector.statistics.isTransient.count }}</pre></td>
         </tr>
         <tr>
             <th>IsTransient time</th>
-            <td><pre>{{ '%0.2f'|format(collector.stats.isTransient.time * 1000) }} ms</pre></td>
+            <td><pre>{{ '%0.2f'|format(collector.statistics.isTransient.time * 1000) }} ms</pre></td>
         </tr>
         <tr>
             <th>Persists</th>
-            <td><pre>{{ collector.stats.persist.count }}</pre></td>
+            <td><pre>{{ collector.statistics.persist.count }}</pre></td>
         </tr>
         <tr>
             <th>Persist time</th>
-            <td><pre>{{ '%0.2f'|format(collector.stats.persist.time * 1000) }} ms</pre></td>
+            <td><pre>{{ '%0.2f'|format(collector.statistics.persist.time * 1000) }} ms</pre></td>
         </tr>
         <tr>
             <th>Detaches</th>
-            <td><pre>{{ collector.stats.detach.count }}</pre></td>
+            <td><pre>{{ collector.statistics.detach.count }}</pre></td>
         </tr>
         <tr>
             <th>Detach time</th>
-            <td><pre>{{ '%0.2f'|format(collector.stats.detach.time * 1000) }} ms</pre></td>
+            <td><pre>{{ '%0.2f'|format(collector.statistics.detach.time * 1000) }} ms</pre></td>
         </tr>
         <tr>
             <th>Merges</th>
-            <td><pre>{{ collector.stats.merge.count }}</pre></td>
+            <td><pre>{{ collector.statistics.merge.count }}</pre></td>
         </tr>
         <tr>
             <th>Merge time</th>
-            <td><pre>{{ '%0.2f'|format(collector.stats.merge.time * 1000) }} ms</pre></td>
+            <td><pre>{{ '%0.2f'|format(collector.statistics.merge.time * 1000) }} ms</pre></td>
         </tr>
         <tr>
             <th>Removes</th>
-            <td><pre>{{ collector.stats.remove.count }}</pre></td>
+            <td><pre>{{ collector.statistics.remove.count }}</pre></td>
         </tr>
         <tr>
             <th>Remove time</th>
-            <td><pre>{{ '%0.2f'|format(collector.stats.remove.time * 1000) }} ms</pre></td>
+            <td><pre>{{ '%0.2f'|format(collector.statistics.remove.time * 1000) }} ms</pre></td>
         </tr>
         <tr>
             <th>Refreshes</th>
-            <td><pre>{{ collector.stats.refresh.count }}</pre></td>
+            <td><pre>{{ collector.statistics.refresh.count }}</pre></td>
         </tr>
         <tr>
             <th>Refresh time</th>
-            <td><pre>{{ '%0.2f'|format(collector.stats.refresh.time * 1000) }} ms</pre></td>
+            <td><pre>{{ '%0.2f'|format(collector.statistics.refresh.time * 1000) }} ms</pre></td>
         </tr>
         <tr>
             <th>Flushes</th>
-            <td><pre>{{ collector.stats.flush.count }}</pre></td>
+            <td><pre>{{ collector.statistics.flush.count }}</pre></td>
         </tr>
         <tr>
             <th>Flush time</th>
-            <td><pre>{{ '%0.2f'|format(collector.stats.flush.time * 1000) }} ms</pre></td>
+            <td><pre>{{ '%0.2f'|format(collector.statistics.flush.time * 1000) }} ms</pre></td>
         </tr>
         <tr>
             <th><abbr title="The total time of all monitored ORM hydrations, operations and metadata retrieving. The time of hidrations and operations includes the time of metadata retrieving used there.">Total time</abbr></th>
@@ -201,7 +201,7 @@
         </tbody>
     </table>
 
-{% endblock stats %}
+{% endblock statistics %}
 
 {% block hydrations %}
     <h2>Hydrations</h2>
@@ -231,12 +231,12 @@
                             Unknown
                         {% endif %}
                     </td>
-                    <td>{% if hydration.resultCount is defined %}{{ hydration.resultCount }}{% else %}Unknown{% endif %}</td>
+                    <td>{% if hydration.result_count is defined %}{{ hydration.result_count }}{% else %}Unknown{% endif %}</td>
                     <td>{% if hydration.type is defined %}{{ hydration.type }} {% else %}Unknown{% endif %}</td>
                     <td>
                         {% if hydration.aliasMap is defined %}
                             <ul>
-                                {% for alias, class in hydration.aliasMap %}
+                                {% for alias, class in hydration.alias_map %}
                                     <li>{{ alias }} => {{ class }}</li>
                                 {% endfor %}
                             </ul>

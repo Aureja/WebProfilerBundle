@@ -15,6 +15,7 @@ use Doctrine\ORM\Configuration as BaseConfiguration;
 
 class AurejaConfiguration extends BaseConfiguration
 {
+    const HYDRATORS = 'aureja_hydrators';
     const LOGGER = 'aureja_logger';
 
     /**

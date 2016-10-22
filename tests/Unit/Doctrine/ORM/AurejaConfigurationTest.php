@@ -3,7 +3,7 @@
 namespace Aureja\Bundle\WebProfilerBundle\Tests\Unit\Doctrine\ORM;
 
 use Aureja\Bundle\WebProfilerBundle\Doctrine\ORM\AurejaConfiguration;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 
 class AurejaConfigurationTest extends TestCase
 {

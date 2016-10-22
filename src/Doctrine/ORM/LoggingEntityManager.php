@@ -11,6 +11,11 @@ use Doctrine\ORM\EntityManager as BaseEntityManager;
 class LoggingEntityManager extends BaseEntityManager
 {
     /**
+     * @var array
+     */
+    private $hydrators;
+
+    /**
      * @var Logger 
      */
     private $logger;
@@ -45,7 +50,7 @@ class LoggingEntityManager extends BaseEntityManager
     public function newHydrator($hydrationMode)
     {
         if ($logger = $this->getProfilingLogger()) {
-            $hydrators = $logger->getHydrators();
+            $hydrators = $this->getHydrators();
 
             if (isset($hydrators[$hydrationMode])) {
                 $class = $hydrators[$hydrationMode]['logging_class'];
@@ -157,22 +162,35 @@ class LoggingEntityManager extends BaseEntityManager
     }
 
     /**
-     * Gets a profiling logger.
-     *
+     * @return array|null
+     */
+    private function getHydrators()
+    {
+        if (!$this->hydrators) {
+            $this->hydrators = $this->getAttribute(AurejaConfiguration::HYDRATORS);
+        }
+
+        return $this->hydrators;
+    }
+
+    /**
      * @return Logger|null
      */
     private function getProfilingLogger()
     {
-        if ($this->logger) {
-            return $this->logger;
-        }
-
-        $config = $this->getConfiguration();
-
-        if ($config instanceof AurejaConfiguration) {
-            $this->logger = $config->getAttribute(AurejaConfiguration::LOGGER, null);
+        if (!$this->logger) {
+            $this->logger = $this->getAttribute(AurejaConfiguration::LOGGER);
         }
 
         return $this->logger;
+    }
+
+    private function getAttribute($name)
+    {
+        if ($this->getConfiguration() instanceof AurejaConfiguration) {
+            return $this->getConfiguration()->getAttribute($name, null);
+        }
+
+        return null;
     }
 }

@@ -22,11 +22,6 @@ class Logger
     protected $hydrations = [];
 
     /**
-     * @var array
-     */
-    private $hydrators;
-
-    /**
      * @var float
      */
     protected $startHydration;
@@ -39,12 +34,12 @@ class Logger
     /**
      * @var array
      */
-    protected $stats = [];
+    protected $statistics = [];
 
     /**
      * @var float
      */
-    protected $statsTime = 0;
+    protected $statisticsTime = 0;
 
     /**
      * @var int
@@ -69,40 +64,11 @@ class Logger
     /**
      * Constructor.
      *
-     * @param array $hydrators
      * @param Stopwatch|null $stopwatch
      */
-    public function __construct(array $hydrators, Stopwatch $stopwatch = null)
+    public function __construct(Stopwatch $stopwatch = null)
     {
-        $this->hydrators = $hydrators;
         $this->stopwatch = $stopwatch;
-    }
-
-    /**
-     * Gets all executed hydrations
-     *
-     * @return array
-     */
-    public function getHydrations()
-    {
-        return $this->hydrations;
-    }
-
-    /**
-     * @return array
-     */
-    public function getHydrators()
-    {
-        return $this->hydrators;
-    }
-
-    /**
-     * Gets statistic of all executed operations
-     *
-     * @return array
-     */
-    public function getStats()
-    {
         $names = [
             'metadata',
             'getAllMetadata',
@@ -117,12 +83,28 @@ class Logger
         ];
 
         foreach ($names as $name) {
-            if (!isset($this->stats[$name])) {
-                $this->stats[$name] = ['count' => 0, 'time' => 0];
-            }
+            $this->statistics[$name] = ['count' => 0, 'time' => 0];
         }
+    }
 
-        return $this->stats;
+    /**
+     * Gets all executed hydrations
+     *
+     * @return array
+     */
+    public function getHydrations()
+    {
+        return $this->hydrations;
+    }
+
+    /**
+     * Gets statistic of all executed operations
+     *
+     * @return array
+     */
+    public function getStatistics()
+    {
+        return $this->statistics;
     }
 
     /**
@@ -130,9 +112,9 @@ class Logger
      *
      * @return float
      */
-    public function getStatsTime()
+    public function getStatisticsTime()
     {
-        return $this->statsTime;
+        return $this->statisticsTime;
     }
 
     /**
@@ -158,11 +140,11 @@ class Logger
      * @param int   $resultCount
      * @param array $aliasMap
      */
-    public function stopHydration($resultCount, $aliasMap)
+    public function stopHydration($resultCount, array $aliasMap)
     {
-        $this->hydrations[$this->currentHydration]['time']        = microtime(true) - $this->startHydration;
-        $this->hydrations[$this->currentHydration]['resultCount'] = $resultCount;
-        $this->hydrations[$this->currentHydration]['aliasMap']    = $aliasMap;
+        $this->hydrations[$this->currentHydration]['time'] = microtime(true) - $this->startHydration;
+        $this->hydrations[$this->currentHydration]['result_count'] = $resultCount;
+        $this->hydrations[$this->currentHydration]['alias_map'] = $aliasMap;
         
         if ($this->stopwatch) {
             $this->stopwatch->stop('doctrine.orm.hydrations');
@@ -321,8 +303,8 @@ class Logger
     protected function startOperation($name)
     {
         $startStopwatch = $this->stopwatch && empty($this->operationStack);
-
         $this->operationStack[$name][] = microtime(true);
+
         if ($startStopwatch) {
             $this->stopwatch->start('doctrine.orm.operations', 'doctrine');
         }
@@ -334,18 +316,17 @@ class Logger
     protected function stopOperation($name)
     {
         $time = microtime(true) - array_pop($this->operationStack[$name]);
-        if (isset($this->stats[$name])) {
-            $this->stats[$name]['count'] += 1;
-        } else {
-            $this->stats[$name] = ['count' => 1, 'time' => 0];
-        }
+        $this->statistics[$name]['count'] += 1;
+
         // add to an execution time only if there are no nested operations
         if (empty($this->operationStack[$name])) {
             unset($this->operationStack[$name]);
-            $this->stats[$name]['time'] += $time;
+            $this->statistics[$name]['time'] += $time;
+
             // add to a total execution time only if there are no nested operations of any type
             if (empty($this->operationStack)) {
-                $this->statsTime += $time;
+                $this->statisticsTime += $time;
+
                 if ($this->stopwatch) {
                     $this->stopwatch->stop('doctrine.orm.operations');
                 }
@@ -372,27 +353,22 @@ class Logger
     protected function stopMetadata($name)
     {
         $time = microtime(true) - array_pop($this->metadataStack[$name]);
-        if (isset($this->stats[$name])) {
-            $this->stats[$name]['count'] += 1;
-        } else {
-            $this->stats[$name] = ['count' => 1, 'time' => 0];
-        }
+        $this->statistics[$name]['count'] += 1;
+        $this->statistics['metadata']['count'] += 1;
 
-        if (isset($this->stats['metadata'])) {
-            $this->stats['metadata']['count'] += 1;
-        } else {
-            $this->stats['metadata'] = ['count' => 1, 'time' => 0];
-        }
         // add to an execution time only if there are no nested metadata related methods
         if (empty($this->metadataStack[$name])) {
             unset($this->metadataStack[$name]);
-            $this->stats[$name]['time'] += $time;
+            $this->statistics[$name]['time'] += $time;
+
             // add to a total execution time only if it is standalone metadata related method call
             if (empty($this->metadataStack)) {
-                $this->stats['metadata']['time'] += $time;
+                $this->statistics['metadata']['time'] += $time;
+
                 if (0 === $this->hydrationStack && empty($this->operationStack)) {
-                    $this->statsTime += $time;
+                    $this->statisticsTime += $time;
                 }
+
                 if ($this->stopwatch) {
                     $this->stopwatch->stop('doctrine.orm.metadata');
                 }

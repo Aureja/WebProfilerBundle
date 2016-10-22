@@ -37,8 +37,8 @@ class OrmDataCollector extends DataCollector
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
         $this->data['hydrations'] = $this->logger->getHydrations();
-        $this->data['stats']      = $this->logger->getStats();
-        $this->data['statsTime']  = $this->logger->getStatsTime();
+        $this->data['statistics'] = $this->logger->getStatistics();
+        $this->data['statistics_time'] = $this->logger->getStatisticsTime();
     }
 
     /**
@@ -100,9 +100,9 @@ class OrmDataCollector extends DataCollector
      *
      * @return array
      */
-    public function getStats()
+    public function getStatistics()
     {
-        return $this->data['stats'];
+        return $this->data['statistics'];
     }
 
     /**
@@ -112,7 +112,7 @@ class OrmDataCollector extends DataCollector
      */
     public function getTotalTime()
     {
-        return $this->getHydrationTime() + $this->data['statsTime'];
+        return $this->getHydrationTime() + $this->data['statistics_time'];
     }
 
     /**

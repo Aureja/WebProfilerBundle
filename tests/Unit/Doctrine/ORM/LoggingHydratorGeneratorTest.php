@@ -6,7 +6,7 @@ use Aureja\Bundle\WebProfilerBundle\Doctrine\ORM\HydratorMap;
 use Aureja\Bundle\WebProfilerBundle\Doctrine\ORM\HydratorMetadata;
 use Aureja\Bundle\WebProfilerBundle\Doctrine\ORM\LoggingHydratorGenerator;
 use Doctrine\ORM\Query;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 
 class LoggingHydratorGeneratorTest extends TestCase
 {
