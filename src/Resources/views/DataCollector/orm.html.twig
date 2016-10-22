@@ -234,7 +234,7 @@
                     <td>{% if hydration.result_count is defined %}{{ hydration.result_count }}{% else %}Unknown{% endif %}</td>
                     <td>{% if hydration.type is defined %}{{ hydration.type }} {% else %}Unknown{% endif %}</td>
                     <td>
-                        {% if hydration.aliasMap is defined %}
+                        {% if hydration.alias_map is defined %}
                             <ul>
                                 {% for alias, class in hydration.alias_map %}
                                     <li>{{ alias }} => {{ class }}</li>
@@ -285,20 +285,6 @@
             }
 
             //]]></script>
-
-        <style>
-            h3 {
-                margin-bottom: 0px;
-            }
-
-            code {
-                display: none;
-            }
-
-            code pre {
-                padding: 5px;
-            }
-        </style>
     {% endif %}
 
 {% endblock hydrations %}

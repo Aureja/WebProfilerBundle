@@ -39,7 +39,7 @@ class OrmCompilerPass implements CompilerPassInterface
             );
             $definition->addMethodCall(
                 'setAttribute',
-                [AurejaConfiguration::HYDRATORS, new Reference('aureja_web_profiler.orm.hydrators')]
+                [AurejaConfiguration::HYDRATORS, $container->getParameter('aureja_web_profiler.orm.hydrators')]
             );
         }
     }
