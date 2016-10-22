@@ -13,8 +13,10 @@ class AppKernel extends Kernel
         $bundles = [
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
+            new Aureja\Bundle\TestFrameworkBundle\AurejaTestFrameworkBundle(),
             new Aureja\Bundle\WebProfilerBundle\AurejaWebProfilerBundle($this),
         ];
+        
         return $bundles;
     }
     /**
