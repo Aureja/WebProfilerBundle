@@ -3,7 +3,7 @@
 namespace Aureja\Bundle\WebProfilerBundle\Tests\Unit\Analyzer;
 
 use Aureja\Bundle\WebProfilerBundle\Analyzer\DuplicateQueryAnalyzer;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 
 class DuplicateQueryAnalyzerTest extends TestCase
 {
@@ -156,7 +156,8 @@ class DuplicateQueryAnalyzerTest extends TestCase
                     [
                         'sql' => 'SELECT * FROM aureja WHERE id = ?',
                         'count' => 2,
-                    ],[
+                    ],
+                    [
                         'sql' => 'SELECT * FROM aureja',
                         'count' => 3,
                     ],

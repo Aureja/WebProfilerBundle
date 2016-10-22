@@ -33,7 +33,6 @@
                  class="Aureja\Bundle\WebProfilerBundle\Doctrine\ORM\Logger"
                  public="false"
         >
-            <argument>%aureja_web_profiler.orm.hydrators%</argument>
             <argument type="service" id="debug.stopwatch" on-invalid="null" />
         </service>
     </services>

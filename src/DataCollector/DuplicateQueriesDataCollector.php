@@ -22,16 +22,20 @@ class DuplicateQueriesDataCollector extends DataCollector
     /**
      * @var array
      */
-    private $data = [
-        'queries_count' => [],
-        'identical' => [],
-        'similar' => [],
-    ];
+    private $loggers = [];
 
     /**
-     * @var array
+     * DuplicateQueriesDataCollector constructor.
      */
-    private $loggers = [];
+    public function __construct()
+    {
+        $this->data = [
+            'queries_count' => [],
+            'identical' => [],
+            'similar' => [],
+        ];
+    }
+
 
     /**
      * @param string $name
