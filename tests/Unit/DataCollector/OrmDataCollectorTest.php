@@ -24,7 +24,7 @@ class OrmDataCollectorTest extends TestCase
         $this->collector = new OrmDataCollector(new Logger(new Stopwatch()));
     }
 
-    public function testEmptyCollector()
+    public function testEmptyCollect()
     {
         $this->collector->collect(new Request(), new Response());
 

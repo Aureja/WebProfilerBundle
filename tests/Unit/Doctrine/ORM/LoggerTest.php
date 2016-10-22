@@ -34,7 +34,6 @@ class LoggerTest extends TestCase
 
         $hydrations = $this->logger->getHydrations();
 
-
         $this->assertEquals(Query::HYDRATE_ARRAY, $hydrations[1]['type']);
         $this->assertNotEmpty($hydrations[1]['time']);
         $this->assertEquals(5, $hydrations[1]['result_count']);
