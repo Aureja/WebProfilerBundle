@@ -22,11 +22,11 @@ class AppKernel extends Kernel
      */
     public function registerBundles()
     {
-        $bundles = [
-             // ...
-             new Aureja\Bundle\WebProfilerBundle\AurejaWebProfilerBundle(),
-             // ...
-        ];
+        if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
+            // ...
+            $bundles[] = Aureja\Bundle\WebProfilerBundle\AurejaWebProfilerBundle($this);
+            // ...
+        }
     }
 }
 ```

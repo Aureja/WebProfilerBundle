@@ -19,7 +19,7 @@
     "require-dev": {
         "symfony/symfony": ">=2.7|~3.0",
         "phpunit/phpunit": "~5.6",
-        "aureja/test-framework-bundle": "dev-master"
+        "aureja/test-framework-bundle": "~0.1"
     },
     "autoload": {
         "psr-4": {
